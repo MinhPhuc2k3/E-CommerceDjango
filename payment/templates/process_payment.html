@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment</title>
+</head>
+<body>
+    <h2>Payment</h2>
+    <p>Amount to Pay: ${{ amount }}</p>
+
+    <form method="POST">
+        {% csrf_token %}
+        <label>
+            <input type="radio" name="payment_method" value="credit_card" required> Credit Card
+        </label><br>
+        <label>
+            <input type="radio" name="payment_method" value="paypal"> PayPal
+        </label><br>
+        <label>
+            <input type="radio" name="payment_method" value="cash"> Cash on Delivery
+        </label><br>
+
+        <button type="submit">Pay Now</button>
+    </form>
+</body>
+</html>

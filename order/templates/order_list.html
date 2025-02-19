@@ -26,7 +26,7 @@
                         <!-- Books in Order -->
                         <h4>Books:</h4>
                         <ul class="order-items">
-                            {% for item in order.cart.cartbook_set.all %}
+                            {% for item in order.orderbook_set.all %}
                                 <li>{{ item.book.title }} - ${{ item.book.price }} (Qty: {{ item.quantity }})</li>
                             {% empty %}
                                 <li>No books in this order.</li>
@@ -36,19 +36,12 @@
                         <!-- Clothes in Order -->
                         <h4>Clothes:</h4>
                         <ul class="order-items">
-                            {% for item in order.cart.cartclothes_set.all %}
+                            {% for item in order.orderclothes_set.all %}
                                 <li>{{ item.clothes.name }} - ${{ item.clothes.price }} (Qty: {{ item.quantity }})</li>
                             {% empty %}
                                 <li>No clothes in this order.</li>
                             {% endfor %}
                         </ul>
-
-                        <!-- Total Price -->
-                        <p><strong>Total:</strong> $
-                            {% widthratio order.cart.cartbook_set.all|length 1 0 as book_count %}
-                            {% widthratio order.cart.cartclothes_set.all|length 1 book_count as total_count %}
-                            {{ total_count }}
-                        </p>
                     </li>
                 {% endfor %}
             </ul>

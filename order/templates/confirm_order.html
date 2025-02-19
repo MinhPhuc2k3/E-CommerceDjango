@@ -1,6 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
-
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirm Order</title>
+</head>
 <body>
     <h2>Confirm Your Order</h2>
 
@@ -27,14 +31,13 @@
     <!-- Display Total Price -->
     <h3>Total: ${{ total_price }}</h3>
 
-    <!-- Confirm Order Button -->
-    <form action="{% url 'create_order' %}" method="POST">
+    <!-- Proceed to Payment -->
+    <form action="{% url 'payment_redirect' %}" method="POST">
         {% csrf_token %}
-        <button type="submit">Confirm Order</button>
+        <input type="hidden" name="total_price" value="{{ total_price }}">
+        <button type="submit">Proceed to Payment</button>
     </form>
 
-    <!-- Back to Cart -->
     <a href="{% url 'cart_detail' %}">Back to Cart</a>
 </body>
-
 </html>
