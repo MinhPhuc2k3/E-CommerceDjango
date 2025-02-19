@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<body>
+    <h2>Confirm Your Order</h2>
+
+    <!-- Display Books -->
+    <h3>Books</h3>
+    <ul>
+        {% for item in cart_books %}
+        <li>{{ item.book.title }} - ${{ item.book.price }} (Quantity: {{ item.quantity }})</li>
+        {% empty %}
+        <li>No books in cart.</li>
+        {% endfor %}
+    </ul>
+
+    <!-- Display Clothes -->
+    <h3>Clothes</h3>
+    <ul>
+        {% for item in cart_clothes %}
+        <li>{{ item.clothes.name }} - ${{ item.clothes.price }} (Quantity: {{ item.quantity }})</li>
+        {% empty %}
+        <li>No clothes in cart.</li>
+        {% endfor %}
+    </ul>
+
+    <!-- Display Total Price -->
+    <h3>Total: ${{ total_price }}</h3>
+
+    <!-- Confirm Order Button -->
+    <form action="{% url 'create_order' %}" method="POST">
+        {% csrf_token %}
+        <button type="submit">Confirm Order</button>
+    </form>
+
+    <!-- Back to Cart -->
+    <a href="{% url 'cart_detail' %}">Back to Cart</a>
+</body>
+
+</html>

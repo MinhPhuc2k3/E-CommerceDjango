@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Orders</title>
+    <!-- {% load static %}
+    <link rel="stylesheet" href="{% static 'css/order_list.css' %}"> -->
+</head>
+<body>
+    <!-- Header Section -->
+    <header>
+        <h1>My Orders</h1>
+        <a href="{% url 'product-list' %}" class="back-btn">Back to Products</a>
+    </header>
+
+    <!-- Orders List -->
+    <main>
+        {% if orders %}
+            <ul class="order-list">
+                {% for order in orders %}
+                    <li class="order-item">
+                        <h3>Order #{{ order.id }}</h3>
+                        <p><strong>Date:</strong> {{ order.created_at }}</p>
+
+                        <!-- Books in Order -->
+                        <h4>Books:</h4>
+                        <ul class="order-items">
+                            {% for item in order.cart.cartbook_set.all %}
+                                <li>{{ item.book.title }} - ${{ item.book.price }} (Qty: {{ item.quantity }})</li>
+                            {% empty %}
+                                <li>No books in this order.</li>
+                            {% endfor %}
+                        </ul>
+
+                        <!-- Clothes in Order -->
+                        <h4>Clothes:</h4>
+                        <ul class="order-items">
+                            {% for item in order.cart.cartclothes_set.all %}
+                                <li>{{ item.clothes.name }} - ${{ item.clothes.price }} (Qty: {{ item.quantity }})</li>
+                            {% empty %}
+                                <li>No clothes in this order.</li>
+                            {% endfor %}
+                        </ul>
+
+                        <!-- Total Price -->
+                        <p><strong>Total:</strong> $
+                            {% widthratio order.cart.cartbook_set.all|length 1 0 as book_count %}
+                            {% widthratio order.cart.cartclothes_set.all|length 1 book_count as total_count %}
+                            {{ total_count }}
+                        </p>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>No orders found.</p>
+        {% endif %}
+    </main>
+</body>
+</html>

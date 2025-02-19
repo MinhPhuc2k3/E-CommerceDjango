@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping Cart</title>
+    {% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+
+</head>
+<body>
+
+    <h2>Your Cart</h2>
+
+    <!-- Books in Cart -->
+    <h3>Books</h3>
+    <ul>
+        {% for cart_book in cart.cartbook_set.all %}
+            <li>
+                <a href="{% url 'book-detail' cart_book.book.id %}">{{ cart_book.book.title }}</a> 
+                - ${{ cart_book.book.price }} ({{ cart_book.quantity }})
+                <form action="{% url 'remove_book_from_cart' cart_book.book.id %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit">Remove</button>
+                </form>
+            </li>
+        {% empty %}
+            <li>No books in cart.</li>
+        {% endfor %}
+    </ul>
+
+    <!-- Clothes in Cart -->
+    <h3>Clothes</h3>
+    <ul>
+        {% for cart_clothes in cart.cartclothes_set.all %}
+            <li>
+                <a href="{% url 'clothes-detail' cart_clothes.clothes.id %}">{{ cart_clothes.clothes.name }}</a> 
+                ({{ cart_clothes.clothes.size }}) - ${{ cart_clothes.clothes.price }} ({{ cart_clothes.quantity }})
+                <form action="{% url 'remove_clothes_from_cart' cart_clothes.clothes.id %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit">Remove</button>
+                </form>
+            </li>
+        {% empty %}
+            <li>No clothes in cart.</li>
+        {% endfor %}
+    </ul>
+
+    <!-- Clear Cart -->
+    <form action="{% url 'clear_cart' %}" method="post">
+        {% csrf_token %}
+        <button type="submit">Clear Cart</button>
+    </form>
+
+    <br>
+    <a href="{% url 'product-list' %}">Back to Products</a>
+    <form action="{% url 'confirm_order' %}" method="get">
+        <button type="submit" class="buy-btn">Buy Now</button>
+    </form>
+    
+</body>
+</html>

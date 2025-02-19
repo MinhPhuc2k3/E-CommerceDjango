@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Products</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/product_list.css' %}">
+</head>
+
+<body>
+    <!-- Header Section -->
+    <header>
+        <div class="header-container">
+            <h1>Our Products</h1>
+            <div class="actions">
+                {% if user.is_authenticated %}
+                    <form action="{% url 'logout' %}" method="post">
+                        {% csrf_token %}
+                        <button type="submit" class="logout-btn">Logout</button>
+                    </form>
+                    <a href="{% url 'cart_detail' %}" class="cart-btn">
+                        <i class="fas fa-shopping-cart"></i> Cart ({{ total_items }})
+                    </a>
+                    <!-- New Order Button -->
+                    <a href="{% url 'order_list' %}" class="logout-btn">Orders</a>
+                {% else %}
+                    <a href="{% url 'login' %}" class="logout-btn">Login</a>
+                {% endif %}
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        <section class="product-section">
+            <h2>Books</h2>
+            <ul class="product-list">
+                {% for book in books %}
+                <li class="product-item">
+                    <a href="{% url 'book-detail' book.id %}" class="product-link">
+                        <h3>{{ book.title }}</h3>
+                        <p class="author"><strong>Author:</strong> {{ book.author }}</p>
+                        <p class="genre"><strong>Genre:</strong> {{ book.genre }}</p>
+                        {% if book.image %}
+                        <img src="{{ book.image.url }}" alt="{{ book.title }}" class="product-image">
+                        {% endif %}
+                    </a>
+                </li>
+                {% empty %}
+                <li class="no-products">No books available.</li>
+                {% endfor %}
+            </ul>
+        </section>
+
+        <section class="product-section">
+            <h2>Clothes</h2>
+            <ul class="product-list">
+                {% for cloth in clothes %}
+                <li class="product-item">
+                    <a href="{% url 'clothes-detail' cloth.id %}" class="product-link">
+                        <h3>{{ cloth.name }}</h3>
+                        <p class="brand"><strong>Brand:</strong> {{ cloth.brand }}</p>
+                        {% if cloth.image %}
+                        <img src="{{ cloth.image.url }}" alt="{{ cloth.name }}" class="product-image">
+                        {% endif %}
+                    </a>
+                </li>
+                {% empty %}
+                <li class="no-products">No clothes available.</li>
+                {% endfor %}
+            </ul>
+        </section>
+    </main>
+
+</body>
+
+</html>

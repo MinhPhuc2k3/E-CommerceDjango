@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ clothes.name }}</title>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <h2>{{ clothes.name }}</h2>
+
+    {% if clothes.image %}
+        <img src="{{ clothes.image.url }}" alt="{{ clothes.name }}" width="200">
+    {% endif %}
+
+    <p><strong>Brand:</strong> {{ clothes.brand }}</p>
+    <p><strong>Size:</strong> {{ clothes.size }}</p>
+    <p><strong>Color:</strong> {{ clothes.color }}</p>
+    <p><strong>Material:</strong> {{ clothes.material }}</p>
+    <p><strong>Gender:</strong> {{ clothes.gender }}</p>
+    <p><strong>Description:</strong> {{ clothes.description }}</p>
+    <p><strong>Price:</strong> ${{ clothes.price }}</p>
+
+    {% if user.is_authenticated %}
+        <form action="{% url 'add_clothes_to_cart' clothes.id %}" method="POST">
+            {% csrf_token %}
+            <label for="quantity">Quantity:</label>
+            <input type="number" name="quantity" value="1" min="1" required>
+            <button type="submit">Add to Cart</button>
+        </form>
+    {% else %}
+        <p><a href="{% url 'login' %}">Login</a> to add this item to your cart.</p>
+    {% endif %}
+
+    <br>
+    <a href="{% url 'product-list' %}">Back to Products</a>
+</body>
+</html>
